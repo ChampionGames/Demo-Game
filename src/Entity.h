@@ -1,44 +1,52 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-//Any living thing in the demo game.
 class Entity
 {
     public:
-        Entity(int health=100);
+        Entity(int hp=100);
+        int getHealth();
+        void setHealth(int);
+        void setDead(bool);
+        bool isDead();
     protected:
-    private:
         int health;
+        bool dead;
 };
-//Hostile Entity.
 class Enemy: public Entity{
     public:
-        Enemy(int);
-        virtual ~Enemy()=0; //Virtual, each derivative class of Enemy must have its own implementation for the destructor.
-        virtual void attack()=0; //Virtual, each derivative class of Enemy must have its own attack type.
+        Enemy(int hp=100);
+        virtual void attack()=0;
         Entity* getTarget();
-        void setTarget();
+        void setTarget(Entity*);
     protected:
-        Entity *target; //Pointer to the entity that this enemy will attack.
+        Entity *target;
 };
-//Monster class - derivative of Enemy.
 class Monster: public Enemy{
     public:
-        Monster(int);
-        ~Monster();
-        void attack(); //Will be implemented in Enemy.cpp
+        Monster(int hp = 100);
+        void attack();
         void bite();
         void claw();
         void stomp();
 };
-//Ninja class - derivative of Enemy.
 class Ninja: public Enemy{
     public:
-        Ninja(int);
-        ~Ninja();
-        void attack(); // Will be implemented in Enemy.cpp
+        Ninja(int hp = 100);
+        void attack();
         void slash();
         void shuriken();
         void chop();
+};
+class Player: public Entity{
+    public:
+        Player(int hp=100);
+        Entity* getTarget();
+        void setTarget(Entity*);
+        void kick();
+        void punch();
+        void slash();
+    protected:
+        Entity *target;
 };
 #endif // ENTITY_H
